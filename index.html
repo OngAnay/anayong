@@ -3,212 +3,268 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AÑAY - Gratitud en Acción | Red de Albergues Arequipa</title>
+    <title>AÑAY - Ecosistema de Bienestar Animal | Arequipa</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap');
-        body { font-family: 'Plus Jakarta Sans', sans-serif; scroll-behavior: smooth; }
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap');
         
-        .hero-full { 
+        :root { --sky-main: #0ea5e9; --slate-dark: #0f172a; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; overflow-x: hidden; }
+
+        /* Transiciones de Sección */
+        .view-section { display: none; min-height: 100vh; animation: fadeUp 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
+        .view-section.active { display: block; }
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Estilo Hero Wuf */
+        .hero-bg { 
             height: 100vh; 
-            background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('https://images.unsplash.com/photo-1551730459-92db2a308d6a?q=80&w=1920&auto=format&fit=crop');
-            background-size: cover;
-            background-position: center;
+            background: linear-gradient(rgba(15, 23, 42, 0.4), rgba(15, 23, 42, 0.4)), 
+                        url('https://images.unsplash.com/photo-1548199973-03cce0bbc87b?q=80&w=1920&auto=format&fit=crop');
+            background-size: cover; background-position: center;
         }
 
-        .section-tab { display: none; }
-        .section-tab.active { display: block; animation: fadeIn 0.5s ease; }
+        /* Acordeones y Desplegables */
+        .expand-content { max-height: 0; overflow: hidden; transition: all 0.5s ease-in-out; opacity: 0; }
+        .expand-content.open { max-height: 1500px; opacity: 1; padding: 2rem 0; }
 
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
-        .btn-pay { background: linear-gradient(90deg, #0ea5e9, #6366f1); transition: all 0.3s; }
-        .btn-pay:hover { transform: scale(1.05); box-shadow: 0 10px 20px rgba(14, 165, 233, 0.3); }
-
-        /* Estilo para los menús desplegables de los albergues */
-        .shelter-merch { max-height: 0; overflow: hidden; transition: max-height 0.5s ease-out; }
-        .shelter-merch.open { max-height: 1000px; }
+        .nav-btn { position: relative; font-weight: 700; font-size: 0.875rem; color: #64748b; transition: all 0.3s; }
+        .nav-btn.active-nav { color: var(--sky-main); }
+        .nav-btn.active-nav::after { content: ''; position: absolute; width: 20px; height: 3px; background: var(--sky-main); bottom: -8px; left: 0; border-radius: 10px; }
+        
+        .card-premium { border-radius: 2.5rem; transition: all 0.4s; border: 1px solid #f1f5f9; }
+        .card-premium:hover { transform: translateY(-10px); box-shadow: 0 30px 60px -12px rgba(0,0,0,0.1); border-color: #e2e8f0; }
     </style>
 </head>
-<body class="bg-slate-50 text-slate-800">
+<body class="bg-white">
 
-    <nav class="fixed w-full z-[100] bg-white/90 backdrop-blur-md border-b border-sky-100 h-20">
+    <nav class="fixed w-full z-[1000] bg-white/90 backdrop-blur-xl border-b border-slate-50 h-24">
         <div class="container mx-auto px-6 h-full flex justify-between items-center">
-            <div class="flex items-center gap-2 cursor-pointer" onclick="showSection('inicio')">
-                <div class="w-10 h-10 bg-sky-500 rounded-xl flex items-center justify-center text-white shadow-lg"><i class="fas fa-paw"></i></div>
-                <span class="text-2xl font-black italic tracking-tighter text-sky-600">AÑAY</span>
-            </div>
-            
-            <div class="hidden md:flex items-center gap-8 font-bold text-sm">
-                <button onclick="showSection('vision')" class="hover:text-sky-500">NUESTRA MISIÓN</button>
-                <button onclick="showSection('albergues')" class="hover:text-sky-500">MARKET ALBERGUES</button>
-                <button onclick="showSection('suscripcion')" class="hover:text-sky-500">QUIERO AYUDAR</button>
-                <a href="https://donbajonxl.com" target="_blank" class="bg-slate-900 text-white px-4 py-2 rounded-lg text-xs">DARK KITCHEN ⚡</a>
+            <div class="flex items-center gap-3 cursor-pointer" onclick="changeView('home')">
+                <div class="w-12 h-12 bg-sky-500 rounded-2xl flex items-center justify-center text-white shadow-xl shadow-sky-100">
+                    <i class="fas fa-paw text-xl"></i>
+                </div>
+                <div>
+                    <span class="text-2xl font-black italic tracking-tighter text-slate-900 block">AÑAY</span>
+                    <span class="text-[9px] font-bold tracking-[0.2em] text-sky-500 uppercase">Gratitud en Acción</span>
+                </div>
             </div>
 
-            <button onclick="showSection('suscripcion')" class="btn-pay text-white px-6 py-2.5 rounded-full font-bold text-xs">SUSCRÍBETE AHORA</button>
+            <div class="hidden lg:flex items-center gap-10">
+                <button onclick="changeView('home')" class="nav-btn active-nav" id="nav-home">INICIO</button>
+                <button onclick="changeView('proyecto')" class="nav-btn" id="nav-proyecto">PROYECTO</button>
+                <button onclick="changeView('market')" class="nav-btn" id="nav-market">MARKETPLACE</button>
+                <button onclick="changeView('ayudar')" class="nav-btn text-sky-600" id="nav-ayudar">SUSCRIPCIÓN 7 SOLES</button>
+            </div>
+
+            <a href="https://donbajonxl.com" target="_blank" class="bg-slate-950 text-white px-6 py-3 rounded-xl text-xs font-black tracking-widest hover:bg-sky-600 transition shadow-lg">DON BAJÓN XL</a>
         </div>
     </nav>
 
-    <section id="inicio" class="section-tab active hero-full flex items-center justify-center text-center px-4">
-        <div class="max-w-4xl">
-            <h1 class="text-6xl md:text-8xl font-extrabold text-white mb-6 drop-shadow-2xl">Gratitud en Acción</h1>
-            <p class="text-xl md:text-2xl text-white/90 mb-10 font-light italic">De Arequipa para el mundo. Transformando el motor financiero de la Dark Kitchen en bienestar animal.</p>
-            <div class="flex flex-col md:flex-row gap-4 justify-center">
-                <button onclick="showSection('albergues')" class="bg-white text-sky-600 px-10 py-4 rounded-2xl font-black text-lg shadow-xl hover:bg-sky-50">Explorar Albergues</button>
-                <button onclick="showSection('vision')" class="bg-sky-600/20 backdrop-blur-md border-2 border-white text-white px-10 py-4 rounded-2xl font-black text-lg hover:bg-white/10">Ver Proyecto</button>
+    <section id="view-home" class="view-section active">
+        <div class="hero-bg flex items-center justify-center px-6">
+            <div class="max-w-5xl text-center">
+                <span class="inline-block px-5 py-2 bg-white/10 backdrop-blur-md border border-white/20 rounded-full text-white text-[10px] font-black tracking-[0.4em] uppercase mb-10">Arequipa • Red Nacional 2026</span>
+                <h1 class="text-6xl md:text-9xl font-extrabold text-white mb-10 tracking-tighter leading-[0.9]">Cambiamos <br><span class="italic text-sky-400">el juego.</span></h1>
+                <p class="text-xl md:text-2xl text-white/80 max-w-2xl mx-auto mb-14 font-light italic leading-relaxed">No es una donación, es una inversión en la independencia de quienes cuidan a los que no tienen voz.</p>
+                <div class="flex flex-col md:flex-row gap-6 justify-center">
+                    <button onclick="changeView('market')" class="bg-white text-slate-900 px-12 py-5 rounded-2xl font-black text-lg shadow-2xl hover:scale-105 transition">Comprar Merch</button>
+                    <button onclick="changeView('ayudar')" class="bg-sky-500 text-white px-12 py-5 rounded-2xl font-black text-lg shadow-2xl hover:scale-105 transition">Suscribirme S/ 7</button>
+                </div>
             </div>
         </div>
     </section>
 
-    <section id="vision" class="section-tab py-32 container mx-auto px-6">
-        <div class="text-center mb-20">
-            <h2 class="text-4xl font-black italic text-slate-900 uppercase">Nuestro Plan de Escalabilidad</h2>
-            <p class="text-slate-500 mt-4">Cómo llevamos AÑAY a cada rincón del Perú.</p>
-        </div>
-
-        <div class="grid md:grid-cols-3 gap-12">
-            <div class="p-10 bg-white rounded-[3rem] shadow-xl border-b-8 border-sky-500">
-                <i class="fas fa-rocket text-4xl text-sky-500 mb-6"></i>
-                <h3 class="text-2xl font-bold mb-4">Misión Nacional</h3>
-                <p class="text-slate-500 text-sm leading-relaxed">Nacimos en Arequipa, pero nuestra meta es el olvido cero. Llevamos recursos técnicos y económicos a las zonas más precarias del país.</p>
-            </div>
-            <div class="p-10 bg-white rounded-[3rem] shadow-xl border-b-8 border-slate-900">
-                <i class="fas fa-home text-4xl text-slate-900 mb-6"></i>
-                <h3 class="text-2xl font-bold mb-4">Espacios Urbanos</h3>
-                <p class="text-slate-500 text-sm leading-relaxed">Convenios con municipalidades para crear zonas seguras en calles: alimento, agua y refugio digno para los peluditos comunitarios.</p>
-            </div>
-            <div class="p-10 bg-white rounded-[3rem] shadow-xl border-b-8 border-sky-500">
-                <i class="fas fa-sync text-4xl text-sky-500 mb-6"></i>
-                <h3 class="text-2xl font-bold mb-4">Suscripción Viva</h3>
-                <p class="text-slate-500 text-sm leading-relaxed">Cada suscripción asegura que el rescatista no esté solo. Mejoramos techos, compramos medicina y aseguramos comida mensual.</p>
+    <section id="view-proyecto" class="view-section pt-32 bg-slate-50">
+        <div class="container mx-auto px-6 max-w-6xl">
+            <div class="grid md:grid-cols-2 gap-20 items-center mb-32">
+                <div>
+                    <h2 class="text-5xl font-extrabold italic text-slate-900 mb-8 leading-tight tracking-tighter">La Visión de <br><span class="text-sky-500 underline decoration-sky-100">Escalabilidad.</span></h2>
+                    <p class="text-slate-500 text-lg leading-relaxed mb-10">AÑAY nace para romper el ciclo de dependencia. Utilizamos la tecnología y la gastronomía (Don Bajón XL) como motores para que los albergues sean empresas sociales autosostenibles.</p>
+                    
+                    <div class="space-y-8">
+                        <div class="flex gap-6 items-start">
+                            <div class="w-12 h-12 bg-sky-100 rounded-xl flex-shrink-0 flex items-center justify-center text-sky-600"><i class="fas fa-check-circle"></i></div>
+                            <div><p class="font-bold text-slate-800">Infraestructura Real</p><p class="text-sm text-slate-500">Mejoramos albergues físicos en Arequipa para convertirlos en modelos nacionales.</p></div>
+                        </div>
+                        <div class="flex gap-6 items-start">
+                            <div class="w-12 h-12 bg-sky-100 rounded-xl flex-shrink-0 flex items-center justify-center text-sky-600"><i class="fas fa-city"></i></div>
+                            <div><p class="font-bold text-slate-800">Módulos Urbanos</p><p class="text-sm text-slate-500">Puntos de alimentación e hidratación inteligentes en zonas estratégicas de la ciudad.</p></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="relative">
+                    <div class="absolute -z-10 -top-10 -right-10 w-64 h-64 bg-sky-200 rounded-full blur-[100px] opacity-40"></div>
+                    <img src="https://images.unsplash.com/photo-1541591415600-9820031f1431?w=800" class="rounded-[4rem] shadow-2xl border-[15px] border-white">
+                </div>
             </div>
         </div>
     </section>
 
-    <section id="albergues" class="section-tab py-32 bg-slate-100">
+    <section id="view-market" class="view-section pt-32 bg-white">
         <div class="container mx-auto px-6">
-            <div class="max-w-3xl mb-16">
-                <h2 class="text-5xl font-black italic text-slate-900 mb-6">Red de Albergues Arequipa</h2>
-                <p class="text-slate-600 italic">Haz clic en cada albergue para desplegar su historia y su marketplace exclusivo.</p>
+            <div class="text-center max-w-3xl mx-auto mb-24">
+                <h2 class="text-6xl font-black italic tracking-tighter text-slate-900 mb-6">Market de los Peluditos</h2>
+                <p class="text-slate-400 font-medium">Cada producto vendido genera utilidad directa para el albergue seleccionado. <br><span class="text-sky-500 font-bold italic">Transparencia total en cada sol.</span></p>
             </div>
 
-            <div class="grid gap-8">
-                <div class="bg-white rounded-[2.5rem] overflow-hidden shadow-md">
-                    <div class="flex flex-col md:flex-row p-8 gap-8 items-center">
-                        <img src="https://images.unsplash.com/photo-1548199973-03cce0bbc87b?w=400" class="w-48 h-48 rounded-full object-cover border-8 border-sky-50 shadow-lg">
+            <div class="max-w-5xl mx-auto space-y-6">
+                <div class="card-premium bg-white">
+                    <button onclick="toggleExpand('shelter1')" class="w-full flex flex-col md:flex-row items-center p-8 gap-10 text-left">
+                        <img src="https://images.unsplash.com/photo-1583337130417-3346a1be7dee?w=400" class="w-32 h-32 rounded-[2rem] object-cover shadow-lg">
                         <div class="flex-1">
-                            <h3 class="text-3xl font-black italic text-slate-900 mb-2">Huellitas de Amor Arequipa</h3>
-                            <p class="text-slate-500 text-sm mb-6">Ubicado en Paucarpata. Hogar de 40 perros rescatados de maltrato severo. Necesitan soporte en vacunas mensuales.</p>
-                            <div class="flex gap-4">
-                                <button onclick="toggleMerch('merch1')" class="bg-sky-500 text-white px-8 py-3 rounded-xl font-bold">Ver Marketplace</button>
-                                <button onclick="showSection('suscripcion')" class="border-2 border-sky-500 text-sky-500 px-8 py-3 rounded-xl font-bold">Suscribirme</button>
+                            <h4 class="text-3xl font-black italic text-slate-800 mb-1">Huellitas de Amor</h4>
+                            <p class="text-[10px] font-black text-sky-500 tracking-[0.3em] uppercase">Sede Paucarpata</p>
+                        </div>
+                        <div class="flex items-center gap-6">
+                            <div class="hidden md:block text-right">
+                                <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Estado</p>
+                                <p class="text-sm font-bold text-emerald-500 italic">● Verificado AÑAY</p>
+                            </div>
+                            <i class="fas fa-chevron-down text-slate-200 text-xl transition-transform duration-500"></i>
+                        </div>
+                    </button>
+                    <div id="shelter1" class="expand-content px-12">
+                        <div class="grid md:grid-cols-2 gap-12 border-t border-slate-50 pt-10 pb-10">
+                            <div>
+                                <h5 class="text-lg font-black italic mb-4">Sobre el Albergue</h5>
+                                <p class="text-sm text-slate-500 leading-relaxed mb-8">Refugio dedicado al rescate de perros ancianos y en estado de abandono crítico. Actualmente albergan a 38 peluditos.</p>
+                                <button onclick="changeView('ayudar')" class="bg-slate-950 text-white px-8 py-3 rounded-xl font-bold text-xs uppercase tracking-widest">Suscribirme a ellos</button>
+                            </div>
+                            <div class="grid grid-cols-2 gap-4">
+                                <div class="bg-slate-50 p-6 rounded-3xl text-center hover:bg-sky-50 transition border border-slate-100">
+                                    <span class="text-3xl block mb-3">👕</span>
+                                    <p class="text-[10px] font-black uppercase mb-1">Polo Oficial</p>
+                                    <p class="text-sky-600 font-extrabold">S/ 45</p>
+                                </div>
+                                <div class="bg-slate-50 p-6 rounded-3xl text-center hover:bg-sky-50 transition border border-slate-100">
+                                    <span class="text-3xl block mb-3">🧢</span>
+                                    <p class="text-[10px] font-black uppercase mb-1">Gorra AÑAY</p>
+                                    <p class="text-sky-600 font-extrabold">S/ 35</p>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div id="merch1" class="shelter-merch bg-sky-50 px-8">
-                        <div class="py-8 grid md:grid-cols-4 gap-4">
-                            <div class="bg-white p-4 rounded-2xl shadow-sm text-center">
-                                <p class="text-2xl mb-2">👕</p><p class="text-xs font-bold">Camiseta Oficial</p><p class="text-sky-600 font-black">S/ 45</p>
-                            </div>
-                            <div class="bg-white p-4 rounded-2xl shadow-sm text-center">
-                                <p class="text-2xl mb-2">🧢</p><p class="text-xs font-bold">Gorra AÑAY</p><p class="text-sky-600 font-black">S/ 30</p>
-                            </div>
-                            <div class="bg-white p-4 rounded-2xl shadow-sm text-center">
-                                <p class="text-2xl mb-2">🦴</p><p class="text-xs font-bold">Pack Snacks XL</p><p class="text-sky-600 font-black">S/ 25</p>
-                            </div>
-                            <div class="bg-white p-4 rounded-2xl shadow-sm text-center">
-                                <p class="text-2xl mb-2">🎨</p><p class="text-xs font-bold">Taza Cerámica</p><p class="text-sky-600 font-black">S/ 20</p>
-                            </div>
-                        </div>
-                    </div>
                 </div>
 
-                <div class="bg-white rounded-[2.5rem] overflow-hidden shadow-md">
-                    <div class="flex flex-col md:flex-row p-8 gap-8 items-center">
-                        <img src="https://images.unsplash.com/photo-1591768793355-74d7c514c39e?w=400" class="w-48 h-48 rounded-full object-cover border-8 border-sky-50 shadow-lg">
-                        <div class="flex-1 text-slate-400">
-                            <h3 class="text-3xl font-black italic mb-2">Corazones Peludos Socabaya</h3>
-                            <p class="text-sm italic">Información y Marketplace en proceso de calibración...</p>
-                        </div>
-                    </div>
-                </div>
-                </div>
-        </div>
-    </section>
-
-    <section id="suscripcion" class="section-tab py-32 container mx-auto px-6">
-        <div class="text-center mb-20">
-            <h2 class="text-5xl font-black italic uppercase">Quiero ayudar a un peludito</h2>
-            <p class="text-slate-500 mt-4 italic">Elige tu nivel de compromiso y despliega el formulario de pago.</p>
-        </div>
-
-        <div class="grid md:grid-cols-3 gap-12 max-w-6xl mx-auto">
-            <div class="bg-white p-12 rounded-[3.5rem] shadow-2xl border-4 border-sky-500 relative transform hover:scale-105 transition">
-                <span class="absolute -top-4 left-1/2 -translate-x-1/2 bg-sky-500 text-white px-8 py-2 rounded-full font-black text-xs">ACTIVO</span>
-                <h3 class="text-3xl font-black italic mb-6">Guardián Semilla</h3>
-                <p class="text-6xl font-black mb-10 text-sky-600">S/ 7 <span class="text-sm text-slate-400">/mes</span></p>
-                <button onclick="togglePayment('pay1')" class="w-full bg-slate-900 text-white py-4 rounded-2xl font-bold mb-4">SUSCRIBIRME</button>
-                <div id="pay1" class="shelter-merch">
-                    <div class="p-6 bg-slate-50 rounded-2xl border border-dashed border-slate-300">
-                        <p class="text-xs font-bold mb-4">MÉTODO DE PAGO</p>
-                        <button class="w-full bg-yellow-400 text-black py-2 rounded-lg font-black text-xs mb-2">YAPE / PLIN</button>
-                        <button class="w-full bg-blue-600 text-white py-2 rounded-lg font-black text-xs">TARJETA CRÉDITO</button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="bg-slate-200/50 p-12 rounded-[3.5rem] border-4 border-dashed border-slate-300 flex flex-col items-center justify-center text-center opacity-60">
-                <i class="fas fa-lock text-4xl mb-6"></i>
-                <h4 class="text-xl font-bold italic">Nivel Premium</h4>
-                <p class="text-xs mt-2 uppercase tracking-widest">Próximamente desbloqueado</p>
-            </div>
-
-            <div class="bg-slate-200/50 p-12 rounded-[3.5rem] border-4 border-dashed border-slate-300 flex flex-col items-center justify-center text-center opacity-60">
-                <i class="fas fa-lock text-4xl mb-6"></i>
-                <h4 class="text-xl font-bold italic">Impacto Total</h4>
-                <p class="text-xs mt-2 uppercase tracking-widest">Próximamente desbloqueado</p>
+                <div class="p-12 border-4 border-dashed border-slate-50 rounded-[3rem] text-center opacity-40">
+                    <p class="text-xs font-black text-slate-300 tracking-[0.5em] uppercase">Cargando Red de Albergues Arequipa...</p>
+                 </div>
             </div>
         </div>
     </section>
 
-    <footer class="bg-slate-900 text-white pt-24 pb-12 px-6">
+    <section id="view-ayudar" class="view-section pt-32 bg-slate-950 text-white">
+        <div class="container mx-auto px-6 max-w-6xl">
+            <div class="text-center mb-24">
+                <span class="text-sky-400 font-black tracking-[0.4em] uppercase text-[10px] block mb-4">Micro-Suscripciones de Impacto</span>
+                <h2 class="text-6xl font-black italic tracking-tighter">Club de Guardián AÑAY</h2>
+                <p class="text-slate-400 mt-6 max-w-xl mx-auto">Siete soles que cambian una vida. Elige tu nivel de compromiso (Próximamente niveles Oro y Platino).</p>
+            </div>
+
+            <div class="grid lg:grid-cols-3 gap-12 items-center max-w-5xl mx-auto">
+                <div class="bg-white text-slate-900 p-14 rounded-[4rem] shadow-2xl relative border-t-[15px] border-sky-500 scale-105">
+                    <div class="absolute -top-7 left-1/2 -translate-x-1/2 bg-sky-500 text-white px-8 py-2 rounded-full font-black text-[10px] uppercase tracking-widest">Nivel Base</div>
+                    <h3 class="text-4xl font-black italic mb-2 tracking-tighter">Semilla</h3>
+                    <p class="text-slate-400 text-[10px] font-bold uppercase mb-10 tracking-[0.2em]">Soporte Masivo</p>
+                    
+                    <div class="flex items-baseline gap-2 mb-12">
+                        <span class="text-7xl font-black tracking-tighter text-sky-600 italic">S/ 7</span>
+                        <span class="text-slate-400 font-black text-[10px] uppercase">/mes</span>
+                    </div>
+
+                    <ul class="space-y-6 mb-14">
+                        <li class="flex items-center gap-4 text-xs font-black uppercase italic"><i class="fas fa-check-circle text-sky-500"></i> Alimentación Básica</li>
+                        <li class="flex items-center gap-4 text-xs font-black uppercase italic"><i class="fas fa-check-circle text-sky-500"></i> Desparasitación Trimestral</li>
+                        <li class="flex items-center gap-4 text-xs font-black uppercase italic"><i class="fas fa-check-circle text-sky-500"></i> Acceso al Market Solidario</li>
+                    </ul>
+
+                    <button onclick="toggleExpand('form-pago')" class="w-full bg-slate-950 text-white py-5 rounded-2xl font-black text-xs uppercase tracking-widest hover:bg-sky-500 transition shadow-xl">Suscribirme Ahora</button>
+                    
+                    <div id="form-pago" class="expand-content">
+                        <div class="mt-8 p-8 bg-slate-50 rounded-[2rem] border border-dashed border-slate-200">
+                            <p class="text-[10px] font-black uppercase text-center mb-6 tracking-widest">Elige tu método</p>
+                            <div class="grid grid-cols-2 gap-4">
+                                <button class="bg-white p-4 rounded-xl shadow-sm border border-slate-100 hover:border-sky-500 transition">
+                                    <img src="https://upload.wikimedia.org/wikipedia/commons/d/d1/Yape_logo.png" class="h-6 mx-auto">
+                                </button>
+                                <button class="bg-slate-900 text-white p-4 rounded-xl flex items-center justify-center gap-2">
+                                    <i class="fas fa-credit-card"></i> <span class="text-[9px] font-bold uppercase">Tarjeta</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-2 grid md:grid-cols-2 gap-8 opacity-30 grayscale">
+                    <div class="bg-slate-900/50 p-12 rounded-[4rem] border border-slate-800 text-center min-h-[500px] flex flex-col justify-center">
+                        <i class="fas fa-lock text-5xl text-sky-500 mb-8"></i>
+                        <h4 class="text-2xl font-black italic uppercase tracking-widest">Guardián Oro</h4>
+                        <p class="text-[10px] text-slate-500 mt-6 uppercase italic tracking-[0.3em]">Próxima Fase</p>
+                    </div>
+                    <div class="bg-slate-900/50 p-12 rounded-[4rem] border border-slate-800 text-center min-h-[500px] flex flex-col justify-center">
+                        <i class="fas fa-infinity text-5xl text-sky-500 mb-8"></i>
+                        <h4 class="text-2xl font-black italic uppercase tracking-widest">Impacto Total</h4>
+                        <p class="text-[10px] text-slate-500 mt-6 uppercase italic tracking-[0.3em]">Exclusivo</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-white pt-32 pb-16 px-6">
         <div class="container mx-auto text-center">
-            <h3 class="text-4xl font-black italic text-sky-400 mb-8">AÑAY</h3>
-            <p class="max-w-2xl mx-auto text-slate-400 text-sm mb-12">Un proyecto impulsado por la visión de Brendon Beltrán Gonzales. Estamos aquí para cambiar las reglas del juego en el bienestar animal peruano.</p>
-            <div class="flex justify-center gap-8 mb-20 text-xs font-black tracking-widest text-sky-500 uppercase">
-                <a href="#" class="hover:text-white">Términos</a>
-                <a href="#" class="hover:text-white">Privacidad</a>
-                <a href="#" class="hover:text-white">Cookies</a>
+            <div class="w-20 h-20 bg-slate-50 rounded-[2rem] flex items-center justify-center text-slate-200 text-3xl mx-auto mb-12 border border-slate-100"><i class="fas fa-paw"></i></div>
+            <h3 class="text-5xl font-black italic text-slate-900 mb-8 tracking-tighter">ONG AÑAY</h3>
+            <p class="max-w-xl mx-auto text-slate-400 text-sm leading-relaxed italic mb-16">Un proyecto disruptivo nacido en Arequipa para transformar la realidad de los albergues en todo el Perú.</p>
+            
+            <div class="flex flex-wrap justify-center gap-12 mb-24 font-black text-[10px] tracking-[0.4em] uppercase text-slate-400">
+                <a href="#" class="hover:text-sky-500">Transparencia</a>
+                <a href="#" class="hover:text-sky-500">Términos</a>
+                <a href="#" class="hover:text-sky-500">Privacidad</a>
             </div>
-            <p class="text-[10px] text-slate-600 tracking-[0.5em] uppercase">© 2026 Brendon Beltrán Gonzales - Todos los derechos reservados</p>
+
+            <div class="text-[9px] font-black text-slate-200 uppercase tracking-[0.6em]">
+                © 2026 Brendon Beltrán Gonzales - Todos los derechos reservados
+            </div>
         </div>
     </footer>
 
     <script>
-        // Función para cambiar de sección (Menú Desplegable de Página)
-        function showSection(id) {
-            // Ocultar todas las secciones
-            document.querySelectorAll('.section-tab').forEach(section => {
+        // Navegación Dinámica SPA
+        function changeView(view) {
+            // Desactivar todas las secciones
+            document.querySelectorAll('.view-section').forEach(section => {
                 section.classList.remove('active');
             });
-            // Mostrar la seleccionada
-            const target = document.getElementById(id);
-            target.classList.add('active');
-            // Scroll al inicio de la sección
-            window.scrollTo(0, 0);
+            // Activar la seleccionada
+            document.getElementById('view-' + view).classList.add('active');
+            
+            // Actualizar Nav Buttons
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('active-nav');
+            });
+            document.getElementById('nav-' + view).classList.add('active-nav');
+            
+            // Scroll arriba suave
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // Función para desplegar marketplace de albergues
-        function toggleMerch(id) {
+        // Función Desplegable
+        function toggleExpand(id) {
             const el = document.getElementById(id);
-            el.classList.toggle('open');
-        }
+            const isOpen = el.classList.contains('open');
+            
+            // Cerrar otros del mismo tipo si se desea
+            if(id.startsWith('shelter')) {
+                document.querySelectorAll('.expand-content').forEach(item => {
+                    if(item.id.startsWith('shelter')) item.classList.remove('open');
+                });
+            }
 
-        // Función para desplegar métodos de pago
-        function togglePayment(id) {
-            const el = document.getElementById(id);
-            el.classList.toggle('open');
+            if(!isOpen) el.classList.add('open');
+            else el.classList.remove('open');
         }
     </script>
 </body>
