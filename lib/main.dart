@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ong_anay/Screens/perfil_albergue_screen.dart';
 
 void main() {
   runApp(const AnayApp());
@@ -16,7 +17,7 @@ class AnayApp extends StatelessWidget {
         primaryColor: const Color(0xFF01579B),
         useMaterial3: true,
       ),
-      home: const MainSkeleton(),
+      home: const PerfilAlbergueScreen()
     );
   }
 }
