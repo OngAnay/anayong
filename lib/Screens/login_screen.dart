@@ -75,7 +75,7 @@ class LoginScreen extends StatelessWidget {
             // BOTÓN INVITADO
             TextButton(
               onPressed: () {
-                // Navegación directa al Home
+                 Navigator.pushNamed(context, '/catalogo');
               },
               child: const Text(
                 "Entrar como invitado",

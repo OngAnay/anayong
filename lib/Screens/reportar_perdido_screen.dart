@@ -43,7 +43,7 @@ class ReportarPerdidoScreen extends StatelessWidget {
                   color: Colors.grey.shade100,
                   borderRadius: BorderRadius.circular(20),
                   border: Border.all(
-                    color: Colors.redAccent.withOpacity(0.3), 
+                    color: Colors.redAccent.withValues(alpha: 0.3), 
                     width: 2,
                   ),
                 ),

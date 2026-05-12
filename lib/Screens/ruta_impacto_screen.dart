@@ -83,7 +83,7 @@ class RutaImpactoScreen extends StatelessWidget {
                 boxShadow: completado
                     ? [
                         BoxShadow(
-                          color: colorPrincipal.withOpacity(0.4),
+                          color: colorPrincipal.withValues(alpha: 0.4),
                           blurRadius: 10,
                           offset: const Offset(0, 4),
                         )

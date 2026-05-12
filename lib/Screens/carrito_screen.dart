@@ -92,7 +92,7 @@ class CarritoScreen extends StatelessWidget {
         borderRadius: const BorderRadius.vertical(top: Radius.circular(40)),
         boxShadow: [
           BoxShadow(
-            color: const Color(0xFF01579B).withOpacity(0.2),
+            color: const Color(0xFF01579B).withValues(alpha:0.2),
             blurRadius: 15,
             offset: const Offset(0, -5),
           ),
@@ -109,7 +109,7 @@ class CarritoScreen extends StatelessWidget {
                 style: TextStyle(color: Colors.white, fontSize: 18),
               ),
               Text(
-                "57 soles", 
+                "7 soles", 
                 style: TextStyle(
                   color: Colors.white, 
                   fontSize: 26, 

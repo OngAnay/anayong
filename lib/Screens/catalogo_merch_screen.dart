@@ -18,12 +18,30 @@ class CatalogoMerchScreen extends StatelessWidget {
         actions: [
           IconButton(
             onPressed: () {
-              // Lógica para abrir el carrito
+               Navigator.pushNamed(context, '/carrito');
             },
             icon: const Icon(Icons.shopping_cart),
           ),
         ],
       ),
+      bottomNavigationBar: BottomNavigationBar(
+  type: BottomNavigationBarType.fixed,
+  selectedItemColor: const Color(0xFF01579B), // El azul de Añay
+  unselectedItemColor: Colors.grey,
+  currentIndex: 0, 
+  onTap: (index) {
+    if (index == 1) {
+      Navigator.pushNamed(context, '/ruta_impacto');
+    } else if (index == 2) {
+      Navigator.pushNamed(context, '/perfil');
+    }
+  },
+  items: const [
+    BottomNavigationBarItem(icon: Icon(Icons.pets), label: 'Tienda'),
+    BottomNavigationBarItem(icon: Icon(Icons.favorite), label: 'Ruta'),
+    BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Perfil'),
+  ],
+),
       body: GridView.builder(
         padding: const EdgeInsets.all(15),
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -60,7 +78,7 @@ class CatalogoMerchScreen extends StatelessWidget {
         borderRadius: BorderRadius.circular(15),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withValues(alpha:0.05),
             blurRadius: 10,
             offset: const Offset(0, 5),
           )
