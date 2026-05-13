@@ -25,7 +25,7 @@ class HomeScreen extends StatelessWidget {
           IconButton(icon: const Icon(Icons.notifications), onPressed: () {}),
         ],
       ),
-      // --- AQUÍ ESTÁ EL DRAWER (MENÚ LATERAL) QUE SOLICITASTE ---
+      // --- DRAWER (MENÚ LATERAL) ---
       drawer: Drawer(
         child: ListView(
           padding: EdgeInsets.zero,
@@ -90,7 +90,52 @@ class HomeScreen extends StatelessWidget {
         child: Column(
           children: [
             const SizedBox(height: 20),
-            // 1. Grilla de Iconos (Estilo Yape) - ¡AHORA TIENEN FUNCIÓN!
+
+            // --- NUEVA SECCIÓN: VIDEO HISTORIA Y META ---
+            Container(
+              margin: const EdgeInsets.symmetric(horizontal: 16),
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(20),
+                boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.1), blurRadius: 10)],
+              ),
+              child: Column(
+                children: [
+                  const Text("Nuestra Historia", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.purple)),
+                  const SizedBox(height: 10),
+                  // Marcador visual para el video de YouTube
+                  Container(
+                    height: 180,
+                    width: double.infinity,
+                    decoration: BoxDecoration(color: Colors.black12, borderRadius: BorderRadius.circular(15)),
+                    child: const Icon(Icons.play_circle_fill, size: 60, color: Colors.purple),
+                  ),
+                  const SizedBox(height: 15),
+                  const Text(
+                    "Meta 2027: 10,000 huellitas alimentadas con amor y esfuerzo en Arequipa.", 
+                    textAlign: TextAlign.center, 
+                    style: TextStyle(fontSize: 14, fontStyle: FontStyle.italic)
+                  ),
+                  const SizedBox(height: 15),
+                  // BOTÓN DE ACCIÓN: SUSCRIPCIÓN 7 SOLES
+                  ElevatedButton(
+                    onPressed: () {}, 
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.orange, 
+                      foregroundColor: Colors.white, 
+                      minimumSize: const Size(double.infinity, 50),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                    ),
+                    child: const Text("SÉ PARTE DEL CAMBIO - 7 SOLES", style: TextStyle(fontWeight: FontWeight.bold)),
+                  ),
+                ],
+              ),
+            ),
+
+            const SizedBox(height: 20),
+
+            // 1. Grilla de Iconos (Estilo Yape)
             GridView.count(
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
@@ -126,7 +171,7 @@ class HomeScreen extends StatelessWidget {
 
             const SizedBox(height: 10),
 
-            // 3. El Carrusel de Publicidad (Se mantiene igual)
+            // 3. El Carrusel de Publicidad
             CarouselSlider(
               options: CarouselOptions(
                 autoPlay: true,
@@ -143,7 +188,6 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  // Widget para crear los iconos del menú con navegación integrada
   Widget _buildMenuIcon(BuildContext context, IconData icon, String label, String route) {
     return GestureDetector(
       onTap: () => Navigator.pushNamed(context, route),
@@ -158,7 +202,7 @@ class HomeScreen extends StatelessWidget {
           const SizedBox(height: 4),
           Text(
             label, 
-            style: const TextStyle(fontSize: 12),
+            style: const TextStyle(fontSize: 11),
             textAlign: TextAlign.center,
           ),
         ],
@@ -166,7 +210,6 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  // Widget para crear los banners
   Widget _buildBanner(String text, Color color) {
     return Container(
       margin: const EdgeInsets.all(5.0),

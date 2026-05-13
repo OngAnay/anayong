@@ -10,129 +10,151 @@ class CatalogoMerchScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text(
           "Tienda Solidaria Añay",
-          style: TextStyle(fontWeight: FontWeight.bold, color: Color(0xFF01579B)),
+          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.purple),
         ),
         backgroundColor: Colors.white,
         elevation: 0,
-        iconTheme: const IconThemeData(color: Color(0xFF01579B)),
+        iconTheme: const IconThemeData(color: Colors.purple),
         actions: [
           IconButton(
-            onPressed: () {
-               Navigator.pushNamed(context, '/carrito');
-            },
+            onPressed: () => Navigator.pushNamed(context, '/carrito'),
             icon: const Icon(Icons.shopping_cart),
           ),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
-  type: BottomNavigationBarType.fixed,
-  selectedItemColor: const Color(0xFF01579B), // El azul de Añay
-  unselectedItemColor: Colors.grey,
-  currentIndex: 0, 
-  onTap: (index) {
-    if (index == 1) {
-      Navigator.pushNamed(context, '/ruta_impacto');
-    } else if (index == 2) {
-      Navigator.pushNamed(context, '/perfil');
-    }
-  },
-  items: const [
-    BottomNavigationBarItem(icon: Icon(Icons.pets), label: 'Tienda'),
-    BottomNavigationBarItem(icon: Icon(Icons.favorite), label: 'Ruta'),
-    BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Perfil'),
-  ],
-),
-      body: GridView.builder(
-        padding: const EdgeInsets.all(15),
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,           // Dos columnas
-          childAspectRatio: 0.65,      // Ajustado para que quepa bien el texto abajo
-          crossAxisSpacing: 15,
-          mainAxisSpacing: 15,
-        ),
-        itemCount: 4, // Por ahora mostramos 4 productos
-        itemBuilder: (context, index) {
-          // Datos de ejemplo para visualizarlo mejor
-          List<Map<String, String>> productos = [
-            {"nombre": "Polo Añay", "precio": "S/ 35.00", "albergue": "Albergue Patitas"},
-            {"nombre": "Taza Dog Lover", "precio": "S/ 20.00", "albergue": "Huellitas de Amor"},
-            {"nombre": "Gorra XL", "precio": "S/ 25.00", "albergue": "ONG Añay"},
-            {"nombre": "Pañoleta Reflector", "precio": "S/ 15.00", "albergue": "Albergue Chiguata"},
-          ];
-
-          return _buildProductCard(
-            productos[index]["nombre"]!,
-            productos[index]["precio"]!,
-            "https://via.placeholder.com/150", // Placeholder hasta que tengan las fotos reales
-            productos[index]["albergue"]!,
-          );
+        type: BottomNavigationBarType.fixed,
+        selectedItemColor: Colors.purple,
+        unselectedItemColor: Colors.grey,
+        currentIndex: 0, 
+        onTap: (index) {
+          if (index == 1) Navigator.pushNamed(context, '/ruta_impacto');
+          if (index == 2) Navigator.pushNamed(context, '/perfil');
         },
+        items: const [
+          BottomNavigationBarItem(icon: Icon(Icons.shopping_bag), label: 'Tienda'),
+          BottomNavigationBarItem(icon: Icon(Icons.favorite), label: 'Ruta'),
+          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Perfil'),
+        ],
+      ),
+      body: Column(
+        children: [
+          // Banner de transparencia de ganancias
+          Container(
+            width: double.infinity,
+            padding: const EdgeInsets.all(12),
+            color: Colors.orange.withValues(alpha: 0.1),
+            child: const Text(
+              "✨ El 100% de la ganancia neta va al albergue indicado.",
+              textAlign: TextAlign.center,
+              style: TextStyle(color: Colors.orange, fontWeight: FontWeight.bold, fontSize: 12),
+            ),
+          ),
+          Expanded(
+            child: GridView.builder(
+              padding: const EdgeInsets.all(15),
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                childAspectRatio: 0.62, // Ajustado para que no se corte el texto
+                crossAxisSpacing: 15,
+                mainAxisSpacing: 15,
+              ),
+              itemCount: 4,
+              itemBuilder: (context, index) {
+                List<Map<String, String>> productos = [
+                  {"nombre": "Polo Añay Oficial", "precio": "S/ 35.00", "albergue": "Albergue Chiguata"},
+                  {"nombre": "Taza Dog Lover", "precio": "S/ 20.00", "albergue": "Patitas del Sur"},
+                  {"nombre": "Gorra XL Pro", "precio": "S/ 25.00", "albergue": "Refugio San Fran"},
+                  {"nombre": "Pañoleta Reflector", "precio": "S/ 15.00", "albergue": "Albergue Chiguata"},
+                ];
+
+                return _buildProductCard(
+                  context,
+                  productos[index]["nombre"]!,
+                  productos[index]["precio"]!,
+                  "https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?auto=format&fit=crop&q=80&w=400",
+                  productos[index]["albergue"]!,
+                );
+              },
+            ),
+          ),
+        ],
       ),
     );
   }
 
-  Widget _buildProductCard(String nombre, String precio, String urlImagen, String albergue) {
+  Widget _buildProductCard(BuildContext context, String nombre, String precio, String urlImagen, String albergue) {
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(15),
+        borderRadius: BorderRadius.circular(20),
         boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha:0.05),
-            blurRadius: 10,
-            offset: const Offset(0, 5),
-          )
+          BoxShadow(color: Colors.black.withValues(alpha: 0.05), blurRadius: 10, offset: const Offset(0, 5))
         ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Imagen del producto
+          // Imagen con etiqueta de Albergue
           Expanded(
-            child: Container(
-              decoration: BoxDecoration(
-                color: Colors.grey.shade100,
-                borderRadius: const BorderRadius.vertical(top: Radius.circular(15)),
-                image: DecorationImage(
-                  image: NetworkImage(urlImagen),
-                  fit: BoxFit.cover,
+            child: Stack(
+              children: [
+                Container(
+                  decoration: BoxDecoration(
+                    color: Colors.grey.shade100,
+                    borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
+                    image: DecorationImage(image: NetworkImage(urlImagen), fit: BoxFit.cover),
+                  ),
                 ),
-              ),
+                Positioned(
+                  top: 10,
+                  left: 10,
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    decoration: BoxDecoration(
+                      color: Colors.purple.withValues(alpha: 0.9),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: const Text("PRO-FONDOS", style: TextStyle(color: Colors.white, fontSize: 9, fontWeight: FontWeight.bold)),
+                  ),
+                ),
+              ],
             ),
           ),
-          // Información del producto
           Padding(
             padding: const EdgeInsets.all(12),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  nombre,
-                  style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
+                Text(nombre, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14), maxLines: 1, overflow: TextOverflow.ellipsis),
                 const SizedBox(height: 4),
-                Text(
-                  "De: $albergue",
-                  style: const TextStyle(color: Colors.grey, fontSize: 11),
+                // Aquí unificamos la tienda con el albergue visualmente
+                Row(
+                  children: [
+                    const Icon(Icons.pets, size: 12, color: Colors.grey),
+                    const SizedBox(width: 4),
+                    Expanded(
+                      child: Text(
+                        albergue,
+                        style: const TextStyle(color: Colors.grey, fontSize: 11, fontWeight: FontWeight.w500),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                  ],
                 ),
-                const SizedBox(height: 12),
+                const SizedBox(height: 10),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      precio,
-                      style: const TextStyle(
-                        color: Color(0xFF03A9F4),
-                        fontWeight: FontWeight.bold,
-                        fontSize: 15,
-                      ),
-                    ),
-                    const Icon(
-                      Icons.add_circle,
-                      color: Color(0xFF01579B),
-                      size: 28,
+                    Text(precio, style: const TextStyle(color: Colors.purple, fontWeight: FontWeight.bold, fontSize: 16)),
+                    GestureDetector(
+                      onTap: () {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text("Añadido pro-fondos para $albergue")),
+                        );
+                      },
+                      child: const Icon(Icons.add_shopping_cart, color: Colors.orange, size: 24),
                     ),
                   ],
                 ),
