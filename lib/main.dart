@@ -34,7 +34,7 @@ class AnayApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF01579B)),
       ),
       // La ruta inicial es el Login
-      initialRoute: '/main_page',
+      initialRoute: '/', //
       
       // Registro de todas las pantallas de la ONG Añay
       routes: {
