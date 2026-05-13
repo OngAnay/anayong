@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class FeedVideosScreen extends StatelessWidget {
-  const FeedVideosScreen({super.key});
+class FeetVideosScreen extends StatelessWidget {
+  const FeetVideosScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class GruposInteresScreen extends StatelessWidget {
-  const GruposInteresScreen({super.key});
+class ComunidadesInteresScreen extends StatelessWidget {
+  const ComunidadesInteresScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
