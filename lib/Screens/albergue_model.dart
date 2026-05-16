@@ -1,7 +1,7 @@
 class Albergue {
   final String nombre;
   final String ubicacion;
-  final String descripcion;
+  final String resena; // Cambiado para evitar errores de caracteres
   final String imagenUrl;
   final int cantidadPerros;
   final double metaDonacion;
@@ -10,7 +10,7 @@ class Albergue {
   Albergue({
     required this.nombre,
     required this.ubicacion,
-    required this.descripcion,
+    required this.resena,
     required this.imagenUrl,
     required this.cantidadPerros,
     required this.metaDonacion,

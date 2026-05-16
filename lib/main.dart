@@ -16,6 +16,8 @@ import 'package:ong_anay/Screens/market_aliados_screen.dart';
 import 'package:ong_anay/Screens/perfil_albergue_screen.dart';
 import 'package:ong_anay/Screens/reportar_perdido_screen.dart';
 import 'package:ong_anay/Screens/main_page.dart';
+import 'package:ong_anay/Screens/albergue_model.dart'; 
+
 void main() {
   runApp(const AnayApp());
 }
@@ -33,10 +35,8 @@ class AnayApp extends StatelessWidget {
         primaryColor: const Color(0xFF01579B),
         colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF01579B)),
       ),
-      // La ruta inicial es el Login
-      initialRoute: '/', //
+      initialRoute: '/', 
       
-      // Registro de todas las pantallas de la ONG Añay
       routes: {
         '/': (context) => const LoginScreen(),
         '/main_page': (context) => const MainPage(),
@@ -58,7 +58,19 @@ class AnayApp extends StatelessWidget {
         '/historia': (context) => const HistoriaScreen(),
         '/logistica': (context) => const LogisticaDonacionesScreen(),
         '/market_aliados': (context) => const MarketAliadosScreen(),
-        '/perfil_albergue': (context) => const PerfilAlbergueScreen(),
+        
+        '/perfil_albergue': (context) => PerfilAlbergueScreen(
+              albergue: Albergue(
+                nombre: 'Albergue Patitas Arequipa',
+                ubicacion: 'Distrito de Chiguata, Arequipa',
+                resena: 'Este albergue ubicado en las faldas del Misti se dedica al rescate y rehabilitación de animales en abandono extremo. Nuestra misión con la ONG Añay es darles una vida digna.', // Cambiado aquí
+                imagenUrl: 'https://images.unsplash.com/photo-1548199973-03cce0bbc87b?auto=format&fit=crop&q=80',
+                cantidadPerros: 45,
+                metaDonacion: 2000.0,
+                recaudado: 1200.0,
+              ),
+            ),
+            
         '/reportar_perdido': (context) => const ReportarPerdidoScreen(),
       },
     );

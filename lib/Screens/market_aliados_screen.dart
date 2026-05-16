@@ -1,134 +1,102 @@
 import 'package:flutter/material.dart';
+import 'package:ong_anay/Models/aliado_model.dart';
+import 'package:ong_anay/Widgets/aliado_card.dart';
 
 class MarketAliadosScreen extends StatelessWidget {
   const MarketAliadosScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    // Datos de prueba: Empresas aliadas de Añay en Arequipa
+    final listaAliados = [
+      Aliado(
+        id: '1',
+        nombre: 'Veterinaria San Francisco',
+        rubro: 'Salud y Medicina',
+        beneficio: '15% de dscto en Consultas',
+        imagenUrl: 'https://images.unsplash.com/photo-1584132967334-10e028bd69f7?auto=format&fit=crop&q=80',
+        icono: Icons.local_hospital,
+      ),
+      Aliado(
+        id: '2',
+        nombre: 'Pet Shop Huellitas Felices',
+        rubro: 'Alimentos y Juguetes',
+        beneficio: 'Envíos gratis + 10% en Accesorios',
+        imagenUrl: 'https://images.unsplash.com/photo-1516734212186-a967f81ad0d7?auto=format&fit=crop&q=80',
+        icono: Icons.shopping_bag,
+      ),
+      Aliado(
+        id: '3',
+        nombre: 'Grooming Canino Misti',
+        rubro: 'Estética y Baño',
+        beneficio: '3x2 en Baños Medicados',
+        imagenUrl: 'https://images.unsplash.com/photo-1516734212186-a967f81ad0d7?auto=format&fit=crop&q=80', // Puedes cambiar por foto de spa canino
+        icono: Icons.content_cut,
+      ),
+    ];
+
     return Scaffold(
-      backgroundColor: const Color(0xFFF8FBFD),
       appBar: AppBar(
         title: const Text(
-          "Market Aliados",
-          style: TextStyle(fontWeight: FontWeight.bold, color: Color(0xFF03A9F4)),
+          'Beneficios Aliados',
+          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
         ),
         backgroundColor: Colors.white,
         elevation: 0,
-        iconTheme: const IconThemeData(color: Color(0xFF03A9F4)),
+        iconTheme: const IconThemeData(color: Colors.black),
       ),
+      backgroundColor: Colors.grey[50],
       body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // FILTROS DE CATEGORÍAS
-          Container(
-            height: 100,
-            padding: const EdgeInsets.symmetric(vertical: 15),
-            child: ListView(
-              scrollDirection: Axis.horizontal,
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              children: [
-                _buildCategoryItem(Icons.fitness_center, "Gimnasios"),
-                _buildCategoryItem(Icons.local_hospital, "Clínicas"),
-                _buildCategoryItem(Icons.restaurant, "Restaurantes"),
-                _buildCategoryItem(Icons.home, "Inmobiliarias"),
-                _buildCategoryItem(Icons.build, "Talleres"),
-              ],
-            ),
-          ),
-
-          // LISTA DE ALIADOS
-          Expanded(
-            child: ListView(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              children: [
-                _buildAliadoCard("Gym Power", "Gimnasio", "Descuento 20%", Icons.fitness_center),
-                _buildAliadoCard("Clínica Dental San José", "Salud", "Limpieza 2x1", Icons.local_hospital),
-                _buildAliadoCard("La Pizzería XL", "Restaurante", "Postre gratis", Icons.restaurant),
-                const SizedBox(height: 20), // Espacio final para que no pegue al borde
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildCategoryItem(IconData icono, String label) {
-    return Padding(
-      padding: const EdgeInsets.only(right: 20),
-      child: Column(
-        children: [
-          CircleAvatar(
-            backgroundColor: const Color(0xFF03A9F4),
-            child: Icon(icono, color: Colors.white, size: 20),
-          ),
-          const SizedBox(height: 5),
-          Text(
-            label, 
-            style: const TextStyle(fontSize: 10, fontWeight: FontWeight.bold),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildAliadoCard(String nombre, String rubro, String beneficio, IconData icono) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 15),
-      padding: const EdgeInsets.all(15),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(20),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.05), 
-            blurRadius: 10,
-            offset: const Offset(0, 5),
-          )
-        ],
-      ),
-      child: Row(
-        children: [
-          Container(
-            padding: const EdgeInsets.all(12),
-            decoration: BoxDecoration(
-              color: const Color(0xFFE1F5FE), 
-              borderRadius: BorderRadius.circular(15),
-            ),
-            child: Icon(icono, color: const Color(0xFF03A9F4)),
-          ),
-          const SizedBox(width: 15),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  nombre, 
-                  style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-                ),
-                Text(
-                  rubro, 
-                  style: const TextStyle(color: Colors.grey, fontSize: 12),
-                ),
-                const SizedBox(height: 8),
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                  decoration: BoxDecoration(
-                    color: Colors.green.shade50, 
-                    borderRadius: BorderRadius.circular(5),
-                  ),
-                  child: Text(
-                    beneficio, 
-                    style: const TextStyle(
-                      color: Colors.green, 
-                      fontSize: 11, 
-                      fontWeight: FontWeight.bold,
+          // Introducción explicativa
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Container(
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: const Color(0xFF008080).withValues(alpha: 0.05),
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(color: const Color(0xFF008080).withValues(alpha: 0.2)),
+              ),
+              child: const Row(
+                children: [
+                  Icon(Icons.stars, color: Color(0xFFFF7F50), size: 30),
+                   SizedBox(width: 12),
+                  Expanded(
+                    child: Text(
+                      'Por ser miembro de Añay, estas empresas comprometidas con el bienestar animal te ofrecen beneficios exclusivos.',
+                      style: TextStyle(fontSize: 13, height: 1.4, color: Colors.black87),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
-          const Icon(Icons.arrow_forward_ios, size: 14, color: Colors.grey),
+          
+          const Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+            child: Text(
+              'Establecimientos Disponibles',
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Color(0xFF008080)),
+            ),
+          ),
+          
+          // Lista de Aliados
+          Expanded(
+            child: ListView.builder(
+              itemCount: listaAliados.length,
+              itemBuilder: (context, index) {
+                return AliadoCard(
+                  aliado: listaAliados[index],
+                  onTap: () {
+                    // Navega a la pantalla de detalle registrada en main.dart
+                    Navigator.pushNamed(context, '/detalle_aliado');
+                  },
+                );
+              },
+            ),
+          ),
         ],
       ),
     );

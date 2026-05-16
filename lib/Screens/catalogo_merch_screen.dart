@@ -1,164 +1,101 @@
 import 'package:flutter/material.dart';
+import 'package:ong_anay/Models/producto_model.dart';
+import 'package:ong_anay/Widgets/producto_card.dart';
 
 class CatalogoMerchScreen extends StatelessWidget {
   const CatalogoMerchScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    // Datos de prueba: Productos de la ONG Añay
+    final listaProductos = [
+      ProductoMerch(
+        id: '1',
+        nombre: 'Polo Añay Algodón',
+        precio: 45.00,
+        categoria: 'Ropa',
+        imagenUrl: 'https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&q=80',
+      ),
+      ProductoMerch(
+        id: '2',
+        nombre: 'Taza Patitas Arequipa',
+        precio: 25.00,
+        categoria: 'Hogar',
+        imagenUrl: 'https://images.unsplash.com/photo-1514228742587-6b1558fbed39?auto=format&fit=crop&q=80',
+      ),
+      ProductoMerch(
+        id: '3',
+        nombre: 'Gorra Añay Azul',
+        precio: 35.00,
+        categoria: 'Accesorios',
+        imagenUrl: 'https://images.unsplash.com/photo-1588850561407-ed78c282e89b?auto=format&fit=crop&q=80',
+      ),
+      ProductoMerch(
+        id: '4',
+        nombre: 'Stickers Huellitas (Pack)',
+        precio: 10.00,
+        categoria: 'Accesorios',
+        imagenUrl: 'https://images.unsplash.com/photo-1572375927902-1c093675e2cd?auto=format&fit=crop&q=80',
+      ),
+    ];
+
     return Scaffold(
-      backgroundColor: const Color(0xFFF8F9FA),
       appBar: AppBar(
         title: const Text(
-          "Tienda Solidaria Añay",
-          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.purple),
+          'Catálogo Añay',
+          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
         ),
         backgroundColor: Colors.white,
         elevation: 0,
-        iconTheme: const IconThemeData(color: Colors.purple),
         actions: [
           IconButton(
+            icon: const Icon(Icons.shopping_cart_outlined, color: Color(0xFF008080)),
             onPressed: () => Navigator.pushNamed(context, '/carrito'),
-            icon: const Icon(Icons.shopping_cart),
           ),
         ],
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        selectedItemColor: Colors.purple,
-        unselectedItemColor: Colors.grey,
-        currentIndex: 0, 
-        onTap: (index) {
-          if (index == 1) Navigator.pushNamed(context, '/ruta_impacto');
-          if (index == 2) Navigator.pushNamed(context, '/perfil');
-        },
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.shopping_bag), label: 'Tienda'),
-          BottomNavigationBarItem(icon: Icon(Icons.favorite), label: 'Ruta'),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Perfil'),
-        ],
-      ),
+      backgroundColor: Colors.grey[50],
       body: Column(
         children: [
-          // Banner de transparencia de ganancias
+          // Banner de promoción o Categorías
           Container(
             width: double.infinity,
-            padding: const EdgeInsets.all(12),
-            color: Colors.orange.withValues(alpha: 0.1),
-            child: const Text(
-              "✨ El 100% de la ganancia neta va al albergue indicado.",
-              textAlign: TextAlign.center,
-              style: TextStyle(color: Colors.orange, fontWeight: FontWeight.bold, fontSize: 12),
+            padding: const EdgeInsets.all(16),
+            margin: const EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              gradient: const LinearGradient(colors: [Color(0xFF008080), Color(0xFF004D40)]),
+              borderRadius: BorderRadius.circular(15),
+            ),
+            child: const Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text("APOYA CON TU COMPRA", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+                Text("Todo lo recaudado va a los refugios", style: TextStyle(color: Colors.white70, fontSize: 12)),
+              ],
             ),
           ),
+
+          // Cuadrícula de productos
           Expanded(
             child: GridView.builder(
-              padding: const EdgeInsets.all(15),
+              padding: const EdgeInsets.symmetric(horizontal: 16),
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                childAspectRatio: 0.62, // Ajustado para que no se corte el texto
+                crossAxisCount: 2, // Dos columnas
+                childAspectRatio: 0.7, // Ajuste de altura/ancho
                 crossAxisSpacing: 15,
                 mainAxisSpacing: 15,
               ),
-              itemCount: 4,
+              itemCount: listaProductos.length,
               itemBuilder: (context, index) {
-                List<Map<String, String>> productos = [
-                  {"nombre": "Polo Añay Oficial", "precio": "S/ 35.00", "albergue": "Albergue Chiguata"},
-                  {"nombre": "Taza Dog Lover", "precio": "S/ 20.00", "albergue": "Patitas del Sur"},
-                  {"nombre": "Gorra XL Pro", "precio": "S/ 25.00", "albergue": "Refugio San Fran"},
-                  {"nombre": "Pañoleta Reflector", "precio": "S/ 15.00", "albergue": "Albergue Chiguata"},
-                ];
-
-                return _buildProductCard(
-                  context,
-                  productos[index]["nombre"]!,
-                  productos[index]["precio"]!,
-                  "https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?auto=format&fit=crop&q=80&w=400",
-                  productos[index]["albergue"]!,
+                return ProductoCard(
+                  producto: listaProductos[index],
+                  onAdd: () {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('${listaProductos[index].nombre} añadido al carrito')),
+                    );
+                  },
                 );
               },
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildProductCard(BuildContext context, String nombre, String precio, String urlImagen, String albergue) {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(20),
-        boxShadow: [
-          BoxShadow(color: Colors.black.withValues(alpha: 0.05), blurRadius: 10, offset: const Offset(0, 5))
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Imagen con etiqueta de Albergue
-          Expanded(
-            child: Stack(
-              children: [
-                Container(
-                  decoration: BoxDecoration(
-                    color: Colors.grey.shade100,
-                    borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
-                    image: DecorationImage(image: NetworkImage(urlImagen), fit: BoxFit.cover),
-                  ),
-                ),
-                Positioned(
-                  top: 10,
-                  left: 10,
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                    decoration: BoxDecoration(
-                      color: Colors.purple.withValues(alpha: 0.9),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: const Text("PRO-FONDOS", style: TextStyle(color: Colors.white, fontSize: 9, fontWeight: FontWeight.bold)),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(12),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(nombre, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14), maxLines: 1, overflow: TextOverflow.ellipsis),
-                const SizedBox(height: 4),
-                // Aquí unificamos la tienda con el albergue visualmente
-                Row(
-                  children: [
-                    const Icon(Icons.pets, size: 12, color: Colors.grey),
-                    const SizedBox(width: 4),
-                    Expanded(
-                      child: Text(
-                        albergue,
-                        style: const TextStyle(color: Colors.grey, fontSize: 11, fontWeight: FontWeight.w500),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 10),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(precio, style: const TextStyle(color: Colors.purple, fontWeight: FontWeight.bold, fontSize: 16)),
-                    GestureDetector(
-                      onTap: () {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text("Añadido pro-fondos para $albergue")),
-                        );
-                      },
-                      child: const Icon(Icons.add_shopping_cart, color: Colors.orange, size: 24),
-                    ),
-                  ],
-                ),
-              ],
             ),
           ),
         ],
