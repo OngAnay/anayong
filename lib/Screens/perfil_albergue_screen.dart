@@ -63,7 +63,7 @@ class PerfilAlbergueScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 10),
                     Text(
-                      albergue.resena, // Cambiado aquí
+                      albergue.resena, 
                       style: const TextStyle(fontSize: 16, height: 1.5),
                     ),
                     

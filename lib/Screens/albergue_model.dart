@@ -1,12 +1,13 @@
 class Albergue {
   final String nombre;
   final String ubicacion;
-  final String resena; // Cambiado para evitar errores de caracteres
+  final String resena; 
   final String imagenUrl;
   final int cantidadPerros;
   final double metaDonacion;
   final double recaudado;
 
+  // Constructor completo
   Albergue({
     required this.nombre,
     required this.ubicacion,
