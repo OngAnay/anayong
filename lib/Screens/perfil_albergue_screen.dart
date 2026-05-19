@@ -3,18 +3,30 @@ import "logistica_donaciones_screen.dart";
 import "albergue_model.dart"; 
 
 class PerfilAlbergueScreen extends StatelessWidget {
-  final Albergue albergue; 
+  final Albergue? albergue; // Lo hacemos opcional con el signo de pregunta
 
   const PerfilAlbergueScreen({
     super.key,
-    required this.albergue,
+    this.albergue,
   });
 
   @override
   Widget build(BuildContext context) {
+    // Si no viene ningún albergue de la otra pantalla, usamos estos datos de prueba por defecto
+    final datosAlbergue = albergue ?? Albergue(
+      id: "1",
+      nombre: "Albergue Huellitas Chiguata",
+      ubicacion: "Chiguata, Arequipa",
+      resena: "Dedicados al rescate, rehabilitación y adopción responsable de perritos en situación de abandono en las zonas altas de Chiguata. Trabajamos día a día para darles una segunda oportunidad de vida.",
+      imagenUrl: "", // Deja vacío para que use el contenedor gris por ahora
+      cantidadPerros: 45,
+      metaDonacion: 5000.0,
+      recaudado: 1200.0,
+    );
+
     double progresoDonacion = 0.0;
-    if (albergue.metaDonacion > 0) {
-      progresoDonacion = albergue.recaudado / albergue.metaDonacion;
+    if (datosAlbergue.metaDonacion > 0) {
+      progresoDonacion = datosAlbergue.recaudado / datosAlbergue.metaDonacion;
       if (progresoDonacion > 1.0) progresoDonacion = 1.0;
     }
 
@@ -28,15 +40,22 @@ class PerfilAlbergueScreen extends StatelessWidget {
             backgroundColor: const Color(0xFF008080), 
             flexibleSpace: FlexibleSpaceBar(
               title: Text(
-                albergue.nombre, 
-                style: const TextStyle(fontWeight: FontWeight.bold),
+                datosAlbergue.nombre, 
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                  shadows: [Shadow(color: Colors.black45, blurRadius: 4)],
+                ),
               ),
-              background: albergue.imagenUrl.isNotEmpty
+              background: datosAlbergue.imagenUrl.isNotEmpty
                   ? Image.network(
-                      albergue.imagenUrl, 
+                      datosAlbergue.imagenUrl, 
                       fit: BoxFit.cover,
                     )
-                  : Container(color: Colors.grey[300]), 
+                  : Container(
+                      color: Colors.grey[300],
+                      child: const Icon(Icons.pets, size: 80, color: Colors.grey),
+                    ), 
             ),
           ),
           
@@ -50,7 +69,7 @@ class PerfilAlbergueScreen extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
-                        _buildStat("${albergue.cantidadPerros}", "Perros"),
+                        _buildStat("${datosAlbergue.cantidadPerros}", "Perros"),
                         _buildStat("-", "Gatos"), 
                         _buildStat("${(progresoDonacion * 100).toInt()}%", "Meta"),
                       ],
@@ -63,7 +82,11 @@ class PerfilAlbergueScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 10),
                     Text(
+<<<<<<< HEAD
                       albergue.resena, 
+=======
+                      datosAlbergue.resena, 
+>>>>>>> widgets-avanzado-nuevo
                       style: const TextStyle(fontSize: 16, height: 1.5),
                     ),
                     
@@ -77,11 +100,11 @@ class PerfilAlbergueScreen extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          'Meta: ${albergue.metaDonacion.toInt()} soles', 
+                          'Meta: ${datosAlbergue.metaDonacion.toInt()} soles', 
                           style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 15),
                         ),
                         Text(
-                          'Recaudado: ${albergue.recaudado.toInt()} soles', 
+                          'Recaudado: ${datosAlbergue.recaudado.toInt()} soles', 
                           style: const TextStyle(color: Colors.green, fontWeight: FontWeight.bold, fontSize: 15),
                         ),
                       ],
@@ -99,7 +122,7 @@ class PerfilAlbergueScreen extends StatelessWidget {
                       style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
                     ListTile(
                       leading: const Icon(Icons.location_on, color: Color(0xFFFF7F50)),
-                      title: Text(albergue.ubicacion), 
+                      title: Text(datosAlbergue.ubicacion), 
                     ),
                     
                     const SizedBox(height: 30),
@@ -108,6 +131,7 @@ class PerfilAlbergueScreen extends StatelessWidget {
                       width: double.infinity,
                       child: ElevatedButton(
                         onPressed: () {
+                          // Esto asume que tienes la pantalla de logística importada correctamente
                           Navigator.push(
                             context,
                             MaterialPageRoute(builder: (context) => const LogisticaDonacionesScreen()),
