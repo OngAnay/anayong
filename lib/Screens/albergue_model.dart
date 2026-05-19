@@ -1,4 +1,5 @@
 class Albergue {
+  final String id; // <-- Agregado de raíz
   final String nombre;
   final String ubicacion;
   final String resena; // Cambiado para evitar errores de caracteres
@@ -8,6 +9,7 @@ class Albergue {
   final double recaudado;
 
   Albergue({
+    required this.id, // <-- Agregado aquí también
     required this.nombre,
     required this.ubicacion,
     required this.resena,
