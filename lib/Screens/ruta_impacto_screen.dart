@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'impacto_model.dart';
+import '../Models/impacto_model.dart';
 import '../Widgets/indicador_impacto_card.dart';
 
 class RutaImpactoScreen extends StatelessWidget {

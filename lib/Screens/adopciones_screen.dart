@@ -5,30 +5,56 @@ class AdopcionesScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Obtenemos los colores establecidos globalmente en el main.dart
+    final theme = Theme.of(context);
+    final primaryColor = theme.primaryColor;
+
     return Scaffold(
       backgroundColor: const Color(0xFFF8FBFD),
       appBar: AppBar(
         title: const Text("Adopciones y Albergues"),
-        backgroundColor: Colors.purple, // Color unificado con tu Home
+        backgroundColor: primaryColor, // Usa el color del tema global
         foregroundColor: Colors.white,
       ),
       body: ListView(
         padding: const EdgeInsets.all(20),
         children: [
-          const Text("Albergues Aliados", 
-            style: TextStyle(color: Colors.purple, fontSize: 24, fontWeight: FontWeight.w900)),
+          Text(
+            "Albergues Aliados", 
+            style: TextStyle(
+              color: primaryColor, // Dinámico según el tema
+              fontSize: 24, 
+              fontWeight: FontWeight.w900,
+            ),
+          ),
           const SizedBox(height: 10),
-          const Text("Conoce y apoya los hogares de nuestros peluditos en Arequipa.", 
-            style: TextStyle(color: Colors.grey, fontSize: 14)),
+          const Text(
+            "Conoce y apoya los hogares de nuestros peluditos en Arequipa.", 
+            style: TextStyle(color: Colors.grey, fontSize: 14),
+          ),
           const SizedBox(height: 25),
           
-          // Tus Albergues con los datos que me pasaste
-          _buildAlbergueCard(context, "Albergue Chiguata", "Chiguata, Arequipa", "45 perros", 0.7, "700 / 1000 soles", Colors.purple),
+          // Tu albergue adaptado dinámicamente
+          _buildAlbergueCard(
+            context, 
+            "Albergue Chiguata", 
+            "Chiguata, Arequipa", 
+            "45 perros", 
+            0.7, 
+            "700 / 1000 soles", 
+            primaryColor, // Le pasamos el color del tema
+          ),
           const SizedBox(height: 30),
 
           // --- NUEVA SECCIÓN VISUAL DE PERRITOS ---
-          const Text("Perritos listos para un hogar", 
-            style: TextStyle(color: Colors.purple, fontSize: 22, fontWeight: FontWeight.bold)),
+          Text(
+            "Perritos listos para un hogar", 
+            style: TextStyle(
+              color: primaryColor, // Dinámico según el tema
+              fontSize: 22, 
+              fontWeight: FontWeight.bold,
+            ),
+          ),
           const SizedBox(height: 15),
 
           _buildPetCard(
@@ -37,6 +63,7 @@ class AdopcionesScreen extends StatelessWidget {
             "2 años",
             "Cachorro juguetón rescatado en Chiguata.",
             "https://images.unsplash.com/photo-1543466835-00a7907e9de1?auto=format&fit=crop&q=80&w=400",
+            primaryColor, // Pasamos color dinámico
           ),
           _buildPetCard(
             context,
@@ -44,6 +71,7 @@ class AdopcionesScreen extends StatelessWidget {
             "4 años",
             "Tranquila y educada, busca una familia amorosa.",
             "https://images.unsplash.com/photo-1537151608828-ea2b11777ee8?auto=format&fit=crop&q=80&w=400",
+            primaryColor, // Pasamos color dinámico
           ),
           
           const SizedBox(height: 20),
@@ -52,7 +80,7 @@ class AdopcionesScreen extends StatelessWidget {
     );
   }
 
-  // Tu widget original de Albergues mejorado
+  // Widget de Albergues totalmente dinámico
   Widget _buildAlbergueCard(BuildContext context, String nombre, String lugar, String cantidad, double progreso, String metaTxt, Color color) {
     return Container(
       decoration: BoxDecoration(
@@ -65,7 +93,10 @@ class AdopcionesScreen extends StatelessWidget {
           Container(
             height: 120,
             width: double.infinity,
-            decoration: BoxDecoration(color: color.withAlpha(25), borderRadius: const BorderRadius.vertical(top: Radius.circular(25))),
+            decoration: BoxDecoration(
+              color: color.withAlpha(25), 
+              borderRadius: const BorderRadius.vertical(top: Radius.circular(25)),
+            ),
             child: Icon(Icons.home_work, size: 50, color: color),
           ),
           Padding(
@@ -82,7 +113,13 @@ class AdopcionesScreen extends StatelessWidget {
                 ),
                 Text(lugar, style: const TextStyle(color: Colors.grey, fontSize: 12)),
                 const SizedBox(height: 15),
-                LinearProgressIndicator(value: progreso, backgroundColor: Colors.grey.shade200, color: color, minHeight: 8, borderRadius: BorderRadius.circular(10)),
+                LinearProgressIndicator(
+                  value: progreso, 
+                  backgroundColor: Colors.grey.shade200, 
+                  color: color, 
+                  minHeight: 8, 
+                  borderRadius: BorderRadius.circular(10),
+                ),
                 const SizedBox(height: 8),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -96,7 +133,11 @@ class AdopcionesScreen extends StatelessWidget {
                   width: double.infinity,
                   child: ElevatedButton(
                     onPressed: () {},
-                    style: ElevatedButton.styleFrom(backgroundColor: color, foregroundColor: Colors.white, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12))),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: color, 
+                      foregroundColor: Colors.white, 
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                    ),
                     child: const Text("APOYAR ALBERGUE", style: TextStyle(fontWeight: FontWeight.bold)),
                   ),
                 )
@@ -108,8 +149,8 @@ class AdopcionesScreen extends StatelessWidget {
     );
   }
 
-  // --- NUEVO WIDGET VISUAL PARA PERRITOS ---
-  Widget _buildPetCard(BuildContext context, String nombre, String edad, String descripcion, String imageUrl) {
+  // Widget para Perritos adaptado al tema global
+  Widget _buildPetCard(BuildContext context, String nombre, String edad, String descripcion, String imageUrl, Color color) {
     return Card(
       elevation: 4,
       margin: const EdgeInsets.only(bottom: 20),
@@ -125,7 +166,10 @@ class AdopcionesScreen extends StatelessWidget {
               width: double.infinity,
               fit: BoxFit.cover,
               errorBuilder: (context, error, stackTrace) => Container(
-                height: 180, color: Colors.grey[300], child: const Icon(Icons.pets, size: 50, color: Colors.grey)),
+                height: 180, 
+                color: Colors.grey[300], 
+                child: const Icon(Icons.pets, size: 50, color: Colors.grey),
+              ),
             ),
           ),
           Padding(
@@ -137,7 +181,7 @@ class AdopcionesScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(nombre, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-                    Text(edad, style: const TextStyle(color: Colors.purple, fontWeight: FontWeight.bold)),
+                    Text(edad, style: TextStyle(color: color, fontWeight: FontWeight.bold)),
                   ],
                 ),
                 const SizedBox(height: 5),
@@ -146,10 +190,10 @@ class AdopcionesScreen extends StatelessWidget {
                 OutlinedButton(
                   onPressed: () {},
                   style: OutlinedButton.styleFrom(
-                    side: const BorderSide(color: Colors.purple),
+                    side: BorderSide(color: color),
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                   ),
-                  child: const Center(child: Text("CONOCER MÁS", style: TextStyle(color: Colors.purple))),
+                  child: Center(child: Text("CONOCER MÁS", style: TextStyle(color: color))),
                 ),
               ],
             ),

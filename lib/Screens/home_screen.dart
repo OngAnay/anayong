@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'albergue_model.dart'; // Importamos el modelo para usar la lista dinámica
+import '../Models/albergue_model.dart'; // Importamos el modelo para usar la lista dinámica
 import 'perfil_albergue_screen.dart'; // Importamos la pantalla de destino
 
 class HomeScreen extends StatelessWidget {

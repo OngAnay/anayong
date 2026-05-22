@@ -1,6 +1,6 @@
-import "package:flutter/material.dart";
-import "logistica_donaciones_screen.dart";
-import "albergue_model.dart"; 
+import 'package:flutter/material.dart';
+import 'logistica_donaciones_screen.dart';
+import '../Models/albergue_model.dart'; 
 
 class PerfilAlbergueScreen extends StatelessWidget {
   final Albergue? albergue; // Lo hacemos opcional con el signo de pregunta
@@ -37,7 +37,7 @@ class PerfilAlbergueScreen extends StatelessWidget {
             expandedHeight: 250.0,
             floating: false,
             pinned: true,
-            backgroundColor: const Color(0xFF008080), 
+            backgroundColor: Colors.lightBlue, // ALINEADO AL CELESTE GLOBAL
             flexibleSpace: FlexibleSpaceBar(
               title: Text(
                 datosAlbergue.nombre, 
@@ -78,22 +78,59 @@ class PerfilAlbergueScreen extends StatelessWidget {
                     
                     const Text(
                       "Sobre nosotros", 
-                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Color(0xFF008080)),
+                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.lightBlue),
                     ),
                     const SizedBox(height: 10),
                     Text(
-<<<<<<< HEAD
-                      albergue.resena, 
-=======
                       datosAlbergue.resena, 
->>>>>>> widgets-avanzado-nuevo
                       style: const TextStyle(fontSize: 16, height: 1.5),
+                    ),
+                    const SizedBox(height: 15),
+
+                    // --- NUEVA BARRA DE CONTACTO RÁPIDO (WHATSAPP E INSTAGRAM) ---
+                    Row(
+                      children: [
+                        const Text(
+                          "Contactar albergue:",
+                          style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.black54),
+                        ),
+                        const Spacer(),
+                        ElevatedButton.icon(
+                          onPressed: () {
+                            // Enlace directo en el futuro: https://wa.me/51XXXXXXXXX
+                          },
+                          icon: const Icon(Icons.chat, size: 16),
+                          label: const Text("WhatsApp", style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold)),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.green,
+                            foregroundColor: Colors.white,
+                            elevation: 0,
+                            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        ElevatedButton.icon(
+                          onPressed: () {
+                            // Enlace directo en el futuro: https://instagram.com/perfil
+                          },
+                          icon: const Icon(Icons.camera_alt, size: 16),
+                          label: const Text("Instagram", style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold)),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.pink,
+                            foregroundColor: Colors.white,
+                            elevation: 0,
+                            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                          ),
+                        ),
+                      ],
                     ),
                     
                     const SizedBox(height: 25),
                     const Text(
                       "Estado de Recaudación", 
-                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Color(0xFF008080)),
+                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.lightBlue),
                     ),
                     const SizedBox(height: 12),
                     Row(
@@ -131,7 +168,6 @@ class PerfilAlbergueScreen extends StatelessWidget {
                       width: double.infinity,
                       child: ElevatedButton(
                         onPressed: () {
-                          // Esto asume que tienes la pantalla de logística importada correctamente
                           Navigator.push(
                             context,
                             MaterialPageRoute(builder: (context) => const LogisticaDonacionesScreen()),
@@ -162,7 +198,7 @@ class PerfilAlbergueScreen extends StatelessWidget {
   Widget _buildStat(String value, String label) {
     return Column(
       children: [
-        Text(value, style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: Color(0xFF008080))),
+        Text(value, style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: Colors.lightBlue)),
         Text(label, style: const TextStyle(color: Colors.grey)),
       ],
     );

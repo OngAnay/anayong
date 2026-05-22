@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ong_anay/Screens/albergue_model.dart'; // RUTA CORREGIDA AQUÍ
+import 'package:ong_anay/Models/albergue_model.dart'; // RUTA CORREGIDA AQUÍ
 
 class AlbergueCard extends StatelessWidget {
   final Albergue albergue; // Recibe el modelo de Añay
